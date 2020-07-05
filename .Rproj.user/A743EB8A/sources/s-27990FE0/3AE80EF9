@@ -1,0 +1,32 @@
+{
+    "id": "3AE80EF9",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1593981633958.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "expression": "lib_pp",
+        "caption": "lib_pp",
+        "totalObservations": 86,
+        "displayedObservations": 86,
+        "variables": 10,
+        "cacheKey": "386A0BF3",
+        "object": "lib_pp",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=lib_pp&cache_key=386A0BF3&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1609275369360,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1593981633958,
+    "read_only": false,
+    "read_only_alternatives": []
+}
