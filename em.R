@@ -20,6 +20,7 @@ library(sp)
 library(rgdal)
 library(leaflet)
 library(mapview)
+library(widgetframe)
 
 
 # PLOT FORMATS ----
@@ -144,6 +145,8 @@ em_map <- fed_elec[fed_elec$Elect_div %in% "Eden-monaro", ]
 
 pal_em <- colorBin(c("#ff1414", "#ff4e4e", "#ff8989", "#ffc4c4" ,"#adebad" ,  "#5cd65c" , "#29a329", "#1f7a1f"), domain = nat_pp$s, bins = c(-20, -15, -10, -5, 0, 5, 10, 15, 25))
 
+# nats
+
 pal_nat <- colorBin(c("#d6f5d6", "#adebad", "#5cd65c", "#33cc33", "#29a329", "#1f7a1f"), domain = nat_pp$p, bins = c(0, 5, 10, 15, 20, 25, 30))
 
 m_nat_s <- leaflet(data = nat_pp) %>% 
@@ -159,6 +162,12 @@ m_nat <- leaflet(data = nat_pp) %>%
   addCircleMarkers(data = nat_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_nat(p), radius = 5, stroke = FALSE, popup = ~popup_label) %>% 
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) 
 
+# saveWidget(m_nat_s, file=paste0(d,"maps/m_nats_s.html"))
+
+# saveWidget(m_nat, file=paste0(d,"maps/m_nat.html"))
+
+# shooters
+
 pal_asp <- colorBin(c("#ffebcc", "#ffc266", "#ff9900", "#995c00"), domain = asp_pp$p, bins = c(0, 5, 10, 15, 20))
 
 m_asp <- leaflet(data = asp_pp) %>% 
@@ -167,6 +176,9 @@ m_asp <- leaflet(data = asp_pp) %>%
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
   addLegend(title = "SSF primary (%)", pal = pal_asp, values = c(0, 20), position = "bottomright") 
 
+# aveWidget(m_asp, file=paste0(d,"maps/m_asp.html"))
+
+# liberals
 
 pal_lib <- colorBin(c("#d6f5d6", "#adebad", "#5cd65c", "#33cc33", "#29a329", "#1f7a1f"), domain = lib_pp$p, bins = c(0, 10, 20, 30, 40, 50, 60))
 
