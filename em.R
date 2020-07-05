@@ -160,7 +160,8 @@ m_nat_s <- leaflet(data = nat_pp) %>%
 m_nat <- leaflet(data = nat_pp) %>% 
   addProviderTiles(providers$CartoDB) %>% 
   addCircleMarkers(data = nat_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_nat(p), radius = 5, stroke = FALSE, popup = ~popup_label) %>% 
-  addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) 
+  addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
+  addLegend(title = "Nats primary (%)", pal = pal_nat, values = c(0, 30), position = "bottomright") 
 
 # saveWidget(m_nat_s, file=paste0(d,"maps/m_nats_s.html"))
 
@@ -176,7 +177,7 @@ m_asp <- leaflet(data = asp_pp) %>%
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
   addLegend(title = "SSF primary (%)", pal = pal_asp, values = c(0, 20), position = "bottomright") 
 
-# aveWidget(m_asp, file=paste0(d,"maps/m_asp.html"))
+# saveWidget(m_asp, file=paste0(d,"maps/m_asp.html"))
 
 # liberals
 
