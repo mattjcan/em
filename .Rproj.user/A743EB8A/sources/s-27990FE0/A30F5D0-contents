@@ -135,15 +135,31 @@ pp_nat_asp <- left_join(pp_nat, temp, by = "pp")
 
 tab <- pp_nat_asp %>% 
   rename(nat = p.x, 
-         asp = p.y)
+         asp = p.y) %>% 
+  arrange(s)
 
 
 # write_csv(pp_nat, "data/pp_nat.csv")
 
 # write_csv(pp_asp, "data/pp_asp.csv")
 
+write_csv(tab, "data/pp_asp.csv")
 
-# MAPS
+
+
+# CHARTS ---- 
+
+tab %>% 
+  ggplot(aes(x = s, y = asp)) + 
+  geom_point(color = "dark green") +
+  labs(title = "Relationship between Swing away from Nats and Shooters vote", subtitle = "", caption = "", x ="Swing against the Nats", y = "Shooters primary") +
+  stat_smooth(method = lm)
+  
+model <- lm(s ~ asp, data = tab)
+
+
+
+# MAPS ---- 
 
 em_map <- fed_elec[fed_elec$Elect_div %in% "Eden-monaro", ]
 
