@@ -96,7 +96,12 @@ asp_pp$popup_label <- paste0("<b>", asp_pp$pp, "</b>", "<br/>", "SFF Primary: ",
 lib_pp <- em_pp %>% 
   filter(party == "LP")
 
-lib_pp$popup_label <- paste0("<b>", lib_pp$pp, "</b>", "<br/>", "NAT Primary: ", round(lib_pp$p, 1), "%", "<br/>", "Primary Swing: ", round(lib_pp$s, 1), "%")
+lib_pp$popup_label <- paste0("<b>", lib_pp$pp, "</b>", "<br/>", "LIB Primary: ", round(lib_pp$p, 1), "%", "<br/>", "Primary Swing: ", round(lib_pp$s, 1), "%")
+
+alp_pp <- em_pp %>% 
+  filter(party == "ALP")
+
+alp_pp$popup_label <- paste0("<b>", alp_pp$pp, "</b>", "<br/>", "ALP Primary: ", round(alp_pp$p, 1), "%", "<br/>", "Primary Swing: ", round(alp_pp$s, 1), "%")
 
 
 pp_nat <- em_pp %>% 
@@ -115,7 +120,6 @@ pp_nat_notq_s <- pp_nat %>%
   filter(!(pp %in% quean)) %>% 
   ungroup() %>% 
   summarise(mean_s = mean(s))
-
 
 
 
@@ -181,33 +185,52 @@ m_asp <- leaflet(data = asp_pp) %>%
 
 # liberals
 
-pal_lib <- colorBin(c("#d6f5d6", "#adebad", "#5cd65c", "#33cc33", "#29a329", "#1f7a1f"), domain = lib_pp$p, bins = c(0, 10, 20, 30, 40, 50, 60))
+pal_lib_s <- colorBin(c("#ff1414", "#ff4e4e", "#ff8989", "#ffc4c4" ,"#9999ff", "#ccccff", "#0000ff", "#0000b3"), domain = lib_pp$s, bins = c(-20, -15, -10, -5, 0, 5, 10, 15, 20))
+
+pal_lib <- colorBin(c("#9999ff", "#b6b6fa", "#9999ff", "#ccccff", "#0000ff", "#0000b3"), domain = lib_pp$p, bins = c(0, 10, 20, 30, 40, 50, 60))
 
 m_lib_s <- leaflet(data = lib_pp) %>% 
   addProviderTiles(providers$CartoDB) %>% 
-  addCircleMarkers(data = lib_pp %>% filter(s >= 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_em(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Positive") %>% 
-  addCircleMarkers(data = nat_pp %>% filter(s < 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_em(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Negative") %>% 
+  addCircleMarkers(data = lib_pp %>% filter(s >= 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_lib_s(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Positive") %>% 
+  addCircleMarkers(data = lib_pp %>% filter(s < 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_lib_s(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Negative") %>% 
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
-  addLegend(title = "Primary swing to NAT (%)", pal = pal_em, values = c(-30, 30), position = "bottomright") %>% 
+  addLegend(title = "Primary swing to Libs (%)", pal = pal_lib_s, values = c(-20, 20), position = "bottomright") %>% 
   addLayersControl(overlayGroups = c("Positive", "Negative"))
 
 m_lib <- leaflet(data = lib_pp) %>% 
   addProviderTiles(providers$CartoDB) %>% 
   addCircleMarkers(data = lib_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_lib(p), radius = 5, stroke = FALSE, popup = ~popup_label) %>% 
-  addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) 
-
-
-
-leaflet() %>% 
-  addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
-  addCircleMarkers(data = nat_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_em(s), radius = 3, stroke = FALSE, popup = ~popup_label, group = "Positive") 
+  addLegend(title = "Lib primary (%)", pal = pal_lib, values = c(0, 60), position = "bottomright") 
 
+# saveWidget(m_lib_s, file=paste0(d,"maps/m_libs_s.html"))
 
+# saveWidget(m_lib, file=paste0(d,"maps/m_lib.html"))
 
+# labor
 
-leaflet() %>%
-  addProviderTiles("Jawg.Light")
+pal_alp_s <- colorBin(c("#0000b3", "#0000ff", "#ccccff", "#9999ff", "#ffc4c4", "#ff8989", "#ff4e4e", "#ff1414"), domain = alp_pp$s, bins = c(-25, -15, -10, -5, 0, 5, 10, 15, 25))
+
+pal_alp <- colorBin(c("#ffdede", "#ffc4c4", "#ffa8a8", "#ff8989", "#ff4e4e", "#ff1414"), domain = alp_pp$p, bins = c(0, 10, 20, 30, 40, 50, 60))
+
+m_alp_s <- leaflet(data = alp_pp) %>% 
+  addProviderTiles(providers$CartoDB) %>% 
+  addCircleMarkers(data = alp_pp %>% filter(s >= 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_alp_s(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Positive") %>% 
+  addCircleMarkers(data = alp_pp %>% filter(s < 0 & !is.na(lat)), fillOpacity = 1, color = ~pal_alp_s(s), radius = 5, stroke = FALSE, popup = ~popup_label, group = "Negative") %>% 
+  addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
+  addLegend(title = "Primary swing to Labor (%)", pal = pal_alp_s, values = c(-25, 25), position = "bottomright") %>% 
+  addLayersControl(overlayGroups = c("Positive", "Negative"))
+
+m_alp <- leaflet(data = alp_pp) %>% 
+  addProviderTiles(providers$CartoDB) %>% 
+  addCircleMarkers(data = alp_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_alp(p), radius = 5, stroke = FALSE, popup = ~popup_label) %>% 
+  addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
+addLegend(title = "Labor primary (%)", pal = pal_alp, values = c(0, 60), position = "bottomright") 
+
+# saveWidget(m_alp_s, file=paste0(d,"maps/m_alps_s.html"))
+
+# saveWidget(m_alp, file=paste0(d,"maps/m_alp.html"))
+
 
 # WASTE ----
 

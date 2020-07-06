@@ -3,23 +3,23 @@
     "path": "~/git/em/em.R",
     "project_path": "em.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "800361180",
     "contents": "",
     "dirty": false,
     "created": 1593851359398.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
-        "cursorPosition": "167,2",
-        "scrollLine": "161",
+        "cursorPosition": "231,1",
+        "scrollLine": "220",
         "tempName": "Untitled1"
     },
     "folds": "",
-    "lastKnownWriteTime": 1593984675,
+    "lastKnownWriteTime": 1594007079,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1593984675467,
+    "last_content_update": 1594007079402,
     "read_only": false,
     "read_only_alternatives": []
 }
