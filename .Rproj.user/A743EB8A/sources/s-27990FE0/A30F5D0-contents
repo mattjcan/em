@@ -65,7 +65,8 @@ em_pp <- em_pp %>%
          party_nm = PartyNm,
          v = OrdinaryVotes,
          s = Swing) %>% 
-  select(pp_id, pp, party, party_nm, v, s)
+  select(pp_id, pp, party, party_nm, v, s) %>% 
+  filter(party != "Informal")
 
 pb19 <- pb19 %>% 
   select(PollingPlaceID, Latitude, Longitude) %>% 
@@ -143,7 +144,10 @@ tab <- pp_nat_asp %>%
 
 # write_csv(pp_asp, "data/pp_asp.csv")
 
-write_csv(tab, "data/pp_asp.csv")
+# write_csv(tab, "data/pp_asp_nat.csv")
+
+# write_csv(em_pp, "data/em_pp.csv")
+
 
 
 
@@ -189,13 +193,13 @@ m_nat <- leaflet(data = nat_pp) %>%
 
 # shooters
 
-pal_asp <- colorBin(c("#ffebcc", "#ffc266", "#ff9900", "#995c00"), domain = asp_pp$p, bins = c(0, 5, 10, 15, 20))
+pal_asp <- colorBin(c("#ffebcc", "#ffc266", "#ff9900", "#995c00"), domain = asp_pp$p, bins = c(0, 5, 10, 15, 25))
 
 m_asp <- leaflet(data = asp_pp) %>% 
   addProviderTiles(providers$CartoDB) %>% 
   addCircleMarkers(data = asp_pp %>% filter(!is.na(lat)), fillOpacity = 1, color = ~pal_asp(p), radius = 5, stroke = FALSE, popup = ~popup_label) %>% 
   addPolygons(data = em_map, color = "#696969", weight = 0.5, opacity = 1, fill = FALSE, label = em_map$Elect_div, highlight = highlightOptions(weight = 2, color = "black", bringToFront = TRUE)) %>% 
-  addLegend(title = "SSF primary (%)", pal = pal_asp, values = c(0, 20), position = "bottomright") 
+  addLegend(title = "SSF primary (%)", pal = pal_asp, values = c(0, 25), position = "bottomright") 
 
 # saveWidget(m_asp, file=paste0(d,"maps/m_asp.html"))
 
